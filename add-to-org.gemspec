@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     "lib/add-to-org/server.rb",
     "lib/add-to-org/views/success.erb",
     "lib/add-to-org/views/forbidden.erb",
-    "lib/add-to-org/views/fail.erb"
+    "lib/add-to-org/views/error.erb"
   ]
   s.require_paths = ["lib"]
   s.add_dependency( "warden-github")
