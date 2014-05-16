@@ -55,7 +55,7 @@ module AddToOrg
 end  
 ```
 
-or by overwritting the `success`, `forbidden`, and `error` methods entirely:
+or by overwriting the `success`, `forbidden`, and `error` methods entirely:
 
 ```ruby
 module AddToOrg
