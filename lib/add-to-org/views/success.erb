@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <style>
+      body { padding: 20px; }
+    </style>
+  </head>
+  <body>
+    <h1>You're all set</h1>
+    <p>You should be <a href="<%= ERB::Util.html_escape(redirect) %>">redirected</a> automatically...</h1>
+    <script>
+     setTimeout(function () {
+       window.location.href = "<%= ERB::Util.html_escape(redirect) %>";
+     }, 5000);
+    </script>
+  </body>
+</html>
