@@ -2,8 +2,8 @@ require File.expand_path('../lib/add-to-org/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name = "add-to-org"
-  s.summary = ""
-  s.description = ""
+  s.summary = "A simple Oauth App to automatically add users to an organization"
+  s.description = "A simple Oauth App to automatically add users to an organization."
   s.version = AddToOrg::VERSION
   s.authors = ["Ben Balter"]
   s.email = "ben.balter@github.com"
