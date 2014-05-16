@@ -4,7 +4,7 @@
 
 ## Usage
 
-Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github.com/government/best-practices/issues/1` becomes `governmet-community.githubapp.com/government/bestpractices/1`. The user will be authenticated, added to the organization, and redirected to the requested GitHub URL.
+Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github.com/government/best-practices/issues/1` becomes `government-community.githubapp.com/government/bestpractices/1`. The user will be authenticated, added to the organization, and redirected to the requested GitHub URL.
 
 ## Setup
 
