@@ -26,7 +26,7 @@ The following environmental values should be set:
 * `GITHUB_TEAM_ID` - The ID of the team to add users to. Get this from the team page's URL
 * `GITHUB_CLIENT_ID` - Your OAuth app's client ID
 * `GITHUB_CLIENT_SECRET` - Your Oauth app's client secret
-  `GITHUB_TOKEN` - A personal access token for a user with admin rights to the organization
+* `GITHUB_TOKEN` - A personal access token for a user with admin rights to the organization
 * `CONTACT_EMAIL` - Point of contact to point users to if something goes wrong
 
 You'll also need to monkey patch a validation method to determine if a user should be added, e.g.:
