@@ -6,11 +6,7 @@
   </head>
   <body>
     <h1>You're all set</h1>
-    <p>You should be <a href="<%= ERB::Util.html_escape(redirect) %>">redirected</a> automatically...</h1>
-    <script>
-     setTimeout(function () {
-       window.location.href = "<%= ERB::Util.html_escape(redirect) %>";
-     }, 5000);
-    </script>
+    <p>You should have recieved an email inviting you to join the organization.</p>
+    <p>Once confirmed, you will have access to <a href="<%= ERB::Util.html_escape(redirect) %>"></a>, the requested URL.</h1>
   </body>
 </html>

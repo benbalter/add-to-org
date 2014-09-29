@@ -53,7 +53,7 @@ module AddToOrg
 
     # the main event...
     def add
-      sudo_client.add_team_member team_id, user.login
+      sudo_client.add_team_membership team_id, user.login
     end
 
   end
