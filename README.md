@@ -2,6 +2,8 @@
 
 *A simple Oauth App to automatically add users to an organization*
 
+[![Gem Version](https://badge.fury.io/rb/add-to-org.svg)](http://badge.fury.io/rb/add-to-org) [![Build Status](https://travis-ci.org/benbalter/add-to-org.svg)](https://travis-ci.org/benbalter/add-to-org)
+
 ## Usage
 
 Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github.com/government/best-practices/issues/1` becomes `government-community.githubapp.com/government/best-practices/1`. The user will be authenticated, added to the organization, and redirected to the requested GitHub URL.
