@@ -14,13 +14,13 @@ Gem::Specification.new do |s|
   s.test_files            = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables           = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths         = ["lib"]
-  
+
   s.require_paths = ["lib"]
-  s.add_dependency( "warden-github")
-  s.add_dependency( "sinatra_auth_github")
-  s.add_dependency( "octokit", "~> 3.3")
-  s.add_dependency( "rack-ssl-enforcer")
-  s.add_dependency( "dotenv")
+  s.add_dependency "warden-github", "~> 1.1"
+  s.add_dependency "sinatra_auth_github", "~> 1.1"
+  s.add_dependency "octokit", "~> 3.3"
+  s.add_dependency "rack-ssl-enforcer", "~> 0.2"
+  s.add_dependency "dotenv", "~> 1.0"
   s.add_dependency "rake", "~> 10.3"
   s.add_development_dependency "rspec", "~> 3.1"
   s.add_development_dependency "rack-test", "~> 0.6"
