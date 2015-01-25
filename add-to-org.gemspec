@@ -10,18 +10,20 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/benbalter/add-to-org"
   s.licenses = ["MIT"]
 
-  s.files = [
-    "lib/add-to-org.rb",
-    "lib/add-to-org/version.rb",
-    "lib/add-to-org/server.rb",
-    "lib/add-to-org/views/success.erb",
-    "lib/add-to-org/views/forbidden.erb",
-    "lib/add-to-org/views/error.erb"
-  ]
+  s.files                 = `git ls-files`.split("\n")
+  s.test_files            = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables           = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths         = ["lib"]
+  
   s.require_paths = ["lib"]
   s.add_dependency( "warden-github")
   s.add_dependency( "sinatra_auth_github")
   s.add_dependency( "octokit", "~> 3.3")
   s.add_dependency( "rack-ssl-enforcer")
   s.add_dependency( "dotenv")
+  s.add_dependency "rake", "~> 10.3"
+  s.add_development_dependency "rspec", "~> 3.1"
+  s.add_development_dependency "rack-test", "~> 0.6"
+  s.add_development_dependency "webmock", "~> 1.2 "
+  s.add_development_dependency "pry", "~> 0.10"
 end

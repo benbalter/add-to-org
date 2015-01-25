@@ -7,6 +7,6 @@
   <body>
     <h1>You're all set</h1>
     <p>You should have recieved an email inviting you to join the organization.</p>
-    <p>Once confirmed, you will have access to <a href="<%= ERB::Util.html_escape(redirect) %>"></a>, the requested URL.</h1>
+    <p>Once confirmed, you will have access to <a href="<%= ERB::Util.html_escape(redirect) %>"><%= ERB::Util.html_escape(redirect) %></a>, the requested URL.</h1>
   </body>
 </html>

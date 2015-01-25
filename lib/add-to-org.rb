@@ -1,60 +1,67 @@
 require 'octokit'
 require 'sinatra_auth_github'
 require 'dotenv'
-require_relative 'add-to-org/server'
+require_relative 'add-to-org/helpers'
 
 Dotenv.load
 
 module AddToOrg
   class App < Sinatra::Base
 
+    include AddToOrg::Helpers
+
     set :github_options, {
-      :scopes    => "user,user:email",
-      :secret    => ENV['GITHUB_CLIENT_SECRET'],
-      :client_id => ENV['GITHUB_CLIENT_ID']
+      :scopes => "user,user:email"
     }
 
-    def user
-      env['warden'].user
+    use Rack::Session::Cookie, {
+      :http_only => true,
+      :secret => ENV['SESSION_SECRET'] || SecureRandom.hex
+    }
+
+    ENV['WARDEN_GITHUB_VERIFIER_SECRET'] ||= SecureRandom.hex
+    register Sinatra::Auth::Github
+
+    set :views, File.expand_path("add-to-org/views", File.dirname(__FILE__))
+
+    # require ssl
+    configure :production do
+      require 'rack-ssl-enforcer'
+      use Rack::SslEnforcer
     end
 
-   # user client
-    def client
-      @client ||= Octokit::Client.new :access_token => user.token
+    # dat auth
+    before do
+      session[:return_to] = request.url #store requested URL for post-auth redirect
+      authenticate!
     end
 
-     # new org admin client
-    def sudo_client
-      @sudo_client ||= Octokit::Client.new :access_token => ENV['GITHUB_TOKEN']
+    def success(locals={})
+      halt erb :success, :locals => locals
     end
 
-    # query api for the user's verified emails
-    def verified_emails
-      emails = client.emails :accept => 'application/vnd.github.v3'
-      emails.select { |email| email.verified }
+    def forbidden
+      status 403
+      halt erb :forbidden
     end
 
-     # true if user is already a member of the org
-    def member?
-      client.organization_member? org_id, user.login
+    def error
+      status 500
+      halt erb :error
     end
 
-    def valid?
-      raise "You must define a custom valid? method to determine eligibility"
-    end
+    # request a GitHub (authenticated) URL
+    get "/*" do
 
-    def team_id
-      ENV['GITHUB_TEAM_ID']
-    end
+      path = request.path || "/#{team_id}"
+      halt redirect "https://github.com#{path}", 302 if member?
+      forbidden unless valid?
 
-    def org_id
-      ENV['GITHUB_ORG_ID']
+      if add
+        success({ :redirect => "https://github.com#{path}" })
+      else
+        error
+      end
     end
-
-    # the main event...
-    def add
-      sudo_client.add_team_membership team_id, user.login
-    end
-
   end
 end

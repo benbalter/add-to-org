@@ -1,0 +1,7 @@
+#!/bin/sh
+# Test that all dependencies resolve, and that the thing actually fires
+
+set -e
+
+bundle exec rake spec
+bundle exec gem build add-to-org.gemspec

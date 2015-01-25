@@ -37,7 +37,7 @@ require 'add-to-org'
 module AddToOrg
   class App < Sinatra::Base
     def valid?
-      verified_emails.any? { |email| email.match /\.foo\.gov$/}
+      verified_emails.any? { |email| email[:email] =~ /@github\.com$/}
     end
   end
 end  
@@ -61,7 +61,7 @@ or by overwriting the `success`, `forbidden`, and `error` methods entirely:
 module AddToOrg
   class App < Sinatra::Base  
     def success(locals={})
-      erb :some_template, locals
+      halt erb :some_template, :locals => locals
     end
   end
 end
