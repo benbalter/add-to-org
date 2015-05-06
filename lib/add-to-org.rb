@@ -11,7 +11,7 @@ module AddToOrg
     include AddToOrg::Helpers
 
     set :github_options, {
-      :scopes => "user,user:email"
+      :scopes => "read:org,user:email"
     }
 
     use Rack::Session::Cookie, {
