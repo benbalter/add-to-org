@@ -82,7 +82,7 @@ describe "logged in user" do
       get "/"
       expect(stub).to have_been_requested
       expect(last_response.status).to eql(200)
-      expect(last_response.body).to match(/You should have recieved an email inviting you to join the organization/)
+      expect(last_response.body).to match(/confirm your invitation to join the organization/)
     end
   end
 
