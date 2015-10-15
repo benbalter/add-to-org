@@ -58,7 +58,7 @@ module AddToOrg
       forbidden unless valid?
 
       if add
-        success({ :redirect => "https://github.com#{path}" })
+        success({ :redirect => "https://github.com#{path}", :org_id => org_id })
       else
         error
       end
