@@ -42,7 +42,7 @@ module AddToOrg
       verified_emails.any? { |email| email[:email] =~ /@github\.com$/}
     end
   end
-end  
+end
 ```
 
 ## Customizing Views
@@ -54,14 +54,14 @@ module AddToOrg
   class App < Sinatra::Base
     set :views, "path/to/your/views"
   end
-end  
+end
 ```
 
 or by overwriting the `success`, `forbidden`, and `error` methods entirely:
 
 ```ruby
 module AddToOrg
-  class App < Sinatra::Base  
+  class App < Sinatra::Base
     def success(locals={})
       halt erb :some_template, :locals => locals
     end
