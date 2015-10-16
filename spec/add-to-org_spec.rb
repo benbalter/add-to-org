@@ -79,10 +79,12 @@ describe "logged in user" do
       stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
       to_return(:status => 204)
 
-      get "/"
+      get "/foo"
       expect(stub).to have_been_requested
       expect(last_response.status).to eql(200)
       expect(last_response.body).to match(/confirm your invitation to join the organization/)
+      expect(last_response.body).to match(/https:\/\/github.com\/orgs\/some_org\/invitation/)
+      expect(last_response.body).to match(/\?return_to=https:\/\/github.com\/foo/)
     end
   end
 
