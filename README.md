@@ -10,6 +10,8 @@ Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github
 
 ## Setup
 
+*Pro-tip: for a quickstart on how to set up the app, see the [add-to-org demo app](https://github.com/benbalter/add-to-org-demo).*
+
 1. Create [an oauth app](github.com/settings/applications/new)
 2. Create a personal access token for a user with admin rights to the organization
 3. Add `gem 'add-to-org' to your project's Gemfile
