@@ -12,10 +12,33 @@ Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github
 
 *Pro-tip: for a quickstart on how to set up the app, see the [add-to-org demo app](https://github.com/benbalter/add-to-org-demo).*
 
-1. Create [an oauth app](github.com/settings/applications/new)
-2. Create a personal access token for a user with admin rights to the organization
+### Credentials
+
+You'll need a few different credentials for things to work:
+
+#### A bot account
+
+You'll need a dedicated "bot" account to add users to the organization:
+
+1. [Create a bot account](https://github.com/signup) (a standard GitHub account not used by a human) that has *admin* rights to your organization.
+2. [Create a personal access token](https://github.com/settings/tokens/new) for that user, with `admin:org` scope.
+
+#### An OAuth application
+
+You'll also need to create an OAUth application to validate users:
+
+1. Create an OAauth application *within your organization* via `https://github.com/organizations/[YOUR-ORGANIZATION-NAME]/settings/applications/new`
+2. The homepage URL should be the URL to your production instance.
+3. You can leave the callback URL blank. The default is fine.
+
+## Developing locally and deploying
+
+*Pro-tip: for a quickstart on how to set up the app, see the [add-to-org demo app](https://github.com/benbalter/add-to-org-demo)*
+
+1. Create [an oauth app](github.com/settings/applications/new) (see above)
+2. Create a personal access token for a user with admin rights to the organization (see above)
 3. Add `gem 'add-to-org' to your project's Gemfile
-4. Add the following to a `config.ru` file:
+4. Add the following to your project's `config.ru` file:
 
 ```ruby
 require 'add-to-org'
