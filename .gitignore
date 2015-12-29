@@ -2,3 +2,10 @@
 .bundle
 *.gem
 Gemfile.lock
+/lib/add-to-org/public/vendor/jquery
+/lib/add-to-org/public/vendor/bootstrap/grunt
+/lib/add-to-org/public/vendor/bootstrap/js
+/lib/add-to-org/public/vendor/bootstrap/less
+/lib/add-to-org/public/vendor/bootstrap/nuget
+/lib/add-to-org/public/vendor/bootstrap/*.md
+/lib/add-to-org/public/vendor/bootstrap/*.js

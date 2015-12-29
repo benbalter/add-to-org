@@ -23,14 +23,14 @@ describe "AddToOrgHelpers" do
   end
 
   it "initializes the client" do
-    expect(@helper.client.class).to eql(Octokit::Client)
-    expect(@helper.client.instance_variable_get("@access_token")).to eql("asdf1234")
+    expect(@helper.send(:client).class).to eql(Octokit::Client)
+    expect(@helper.send(:client).instance_variable_get("@access_token")).to eql("asdf1234")
   end
 
   it "initializes the sudo client" do
     with_env "GITHUB_TOKEN", "SUDO_TOKEN" do
-      expect(@helper.sudo_client.class).to eql(Octokit::Client)
-      expect(@helper.sudo_client.instance_variable_get("@access_token")).to eql("SUDO_TOKEN")
+      expect(@helper.send(:sudo_client).class).to eql(Octokit::Client)
+      expect(@helper.send(:sudo_client).instance_variable_get("@access_token")).to eql("SUDO_TOKEN")
     end
   end
 
@@ -43,13 +43,13 @@ describe "AddToOrgHelpers" do
 
   it "retrieves the org id" do
     with_env "GITHUB_ORG_ID", "some_org" do
-      expect(@helper.org_id).to eql("some_org")
+      expect(@helper.send(:org_id)).to eql("some_org")
     end
   end
 
   it "retrieves the team id" do
     with_env "GITHUB_TEAM_ID", "1234" do
-      expect(@helper.team_id).to eql("1234")
+      expect(@helper.send(:team_id)).to eql("1234")
     end
   end
 
@@ -57,11 +57,11 @@ describe "AddToOrgHelpers" do
     with_env "GITHUB_ORG_ID", "some_org" do
       stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
       to_return(:status => 204)
-      expect(@helper.member?).to eql(true)
+      expect(@helper.send(:member?)).to eql(true)
 
       stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
       to_return(:status => 404)
-      expect(@helper.member?).to eql(false)
+      expect(@helper.send(:member?)).to eql(false)
     end
   end
 
@@ -69,12 +69,17 @@ describe "AddToOrgHelpers" do
     with_env "GITHUB_ORG_ID", "some_org" do
       stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
       to_return(:status => 204)
-      @helper.add
+      @helper.send(:add)
       expect(stub).to have_been_requested
     end
   end
 
   it "throws an error if valid? is not defined" do
-    expect { @helper.valid? }.to raise_error("You must define a custom valid? method to determine eligibility")
+    stub_request(:get, "https://api.github.com/user/emails").
+      to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+
+    AddToOrg.validator = nil
+    error = "You must define a custom validator to determine eligibility"
+    expect { @helper.valid? }.to raise_error(error)
   end
 end

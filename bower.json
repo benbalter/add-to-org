@@ -1,0 +1,15 @@
+{
+  "name": "add-to-org",
+  "homepage": "https://github.com/benbalter/add-to-org",
+  "authors": [
+    "Ben Balter <ben.balter@github.com>"
+  ],
+  "description": "A simple Oauth App to automatically add users to an organization",
+  "main": "script/server",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

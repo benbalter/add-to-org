@@ -1,5 +1,6 @@
 require "bundler/setup"
 require 'fileutils'
+require 'securerandom'
 
 ENV['RACK_ENV'] = 'test'
 ENV['GITHUB_CLIENT_ID'] = "CLIENT_ID"
@@ -25,7 +26,6 @@ end
 def fixture(fixture)
   File.open(fixture_path(fixture)).read
 end
-
 
 def with_env(key, value)
   old_env = ENV[key]
