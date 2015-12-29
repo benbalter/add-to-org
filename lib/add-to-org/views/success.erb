@@ -1,12 +1,5 @@
-<html>
-  <head>
-    <style>
-      body { padding: 20px; }
-    </style>
-  </head>
-  <body>
-    <h1>You're all set</h1>
-    <p class="lead">You simply need to <a href="https://github.com/orgs/<%= org_id %>/invitation?return_to=<%= ERB::Util.html_escape(redirect) %>">confirm your invitation to join the organization</a> on GitHub.</p>
-    <p>Once confirmed, you will have access to <a href="<%= ERB::Util.html_escape(redirect) %>"><%= ERB::Util.html_escape(redirect) %></a>, the requested URL.</h1>
-  </body>
-</html>
+<h1>You're all set</h1>
+
+<p class="lead">You simply need to <a href="https://github.com/orgs/<%= org_id %>/invitation?return_to=<%= ERB::Util.html_escape(redirect) %>">confirm your invitation to join the organization</a> on GitHub.</p>
+
+<p>Once confirmed, you will have access to <a href="<%= ERB::Util.html_escape(redirect) %>"><%= ERB::Util.html_escape(redirect) %></a>, the requested URL.</h1>

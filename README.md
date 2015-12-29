@@ -56,40 +56,54 @@ The following environmental values should be set:
 * `GITHUB_TOKEN` - A personal access token for a user with admin rights to the organization
 * `CONTACT_EMAIL` - Point of contact to point users to if something goes wrong
 
-You'll also need to monkey patch a validation method to determine if a user should be added, e.g.:
+### Customizing the validator
+
+For Add to Org to work, you'll also need to define a custom validator. You can do this in your `configu.ru`, or in a separate file included into `config.ru`. Here's an example of a validator that confirms the user has a verified `@github.com` email address:
 
 ```ruby
 require 'add-to-org'
 
-module AddToOrg
-  class App < Sinatra::Base
-    def valid?
-      verified_emails.any? { |email| email[:email] =~ /@github\.com$/}
-    end
-  end
+AddToOrg.set_validator do |github_user, verified_emails, client|
+  verified_emails.any? { |email| email[:email] =~ /@github\.com\z/ }
 end
+
+run AddToOrg::App
 ```
 
-## Customizing Views
-
-There are three views, `success`, `forbidden`, and `error`. They're pretty boring by default, so you may want to swap them out for something a bit my snazzy. There are two ways to do that:
+If you prefer, you can also pass the validator as a proc (or lambda):
 
 ```ruby
-module AddToOrg
-  class App < Sinatra::Base
-    set :views, "path/to/your/views"
-  end
-end
+AddToOrg.validator = proc { |github_user, verified_emails, client|
+  verified_emails.any? { |email| email[:email] =~ /@github\.com\z/ }
+}
 ```
 
-or by overwriting the `success`, `forbidden`, and `error` methods entirely:
+The validator will receive three  arguments to help you validate the user meets your criteria:
+
+* `github_user` - the Warden user, which will contain information like username, company, and human-readable name
+* `verified_emails` - an array of the user's verified emails
+* `client` - An [Octokit.rb](https://github.com/octokit/octokit.rb) client, preset with the user's OAuth token.
+
+### Customizing Views
+
+There are three views, `success`, `forbidden`, and `error`. They're pretty boring by default, so you may want to swap them out for something a bit my snazzy. If you had a views directory along side your `config.ru`, you can do so like this in your `config.ru` file:
 
 ```ruby
-module AddToOrg
-  class App < Sinatra::Base
-    def success(locals={})
-      halt erb :some_template, :locals => locals
-    end
-  end
-end
+require 'add-to-org'
+
+AddToOrgs.views_dir = File.expand_path("./views", File.dirname(__FILE__))
+
+run AddToOrg::App
+```
+
+### Customizing static assets
+
+You can also do the same with `AddToOrg.public_dir` for serving static assets (AddToOrg comes bundled with Bootstrap by default).
+
+```ruby
+require 'add-to-org'
+
+AddToOrgs.public_dir = File.expand_path("./public", File.dirname(__FILE__))
+
+run AddToOrg::App
 ```

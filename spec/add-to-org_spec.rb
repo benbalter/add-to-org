@@ -1,5 +1,19 @@
 require "spec_helper"
 
+describe "config" do
+  [:views_dir, :public_dir, :validator].each do |var|
+    after do
+      AddToOrg.send("#{var}=", nil)
+    end
+
+    it "accepts #{var}" do
+      expected = SecureRandom.hex
+      AddToOrg.send("#{var}=", expected)
+      expect(AddToOrg.send(var)).to eql(expected)
+    end
+  end
+end
+
 describe "logged out user" do
 
   include Rack::Test::Methods
@@ -18,14 +32,6 @@ end
 describe "logged in user" do
 
   include Rack::Test::Methods
-
-  module AddToOrg
-    class App < Sinatra::Base
-      def valid?
-        verified_emails.any? { |email| email[:email] =~ /@github\.com$/}
-      end
-    end
-  end
 
   def app
     AddToOrg::App
@@ -54,55 +60,76 @@ describe "logged in user" do
     end
   end
 
-  it "denies acccess to invalid users" do
-    with_env "GITHUB_ORG_ID", "some_org" do
-      stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
-      to_return(:status => 404)
+  [:proc, :block, :lambda].each do |method|
+    describe "with validator passed as a #{method}" do
 
-      stub_request(:get, "https://api.github.com/user/emails").
-      to_return(:status => 200, :body => fixture("invalid_emails.json"), :headers => { 'Content-Type'=>'application/json' })
+      before(:each) do
+        if method == :block
+          AddToOrg.set_validator do |github_user, verified_emails, client|
+            verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
+          end
+        elsif method == :proc
+          AddToOrg.validator = proc { |github_user, verified_emails, client|
+            verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
+          }
+        elsif method == :lambda
+          AddToOrg.validator = lambda { |github_user, verified_emails, client|
+            verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
+          }
+        end
+      end
 
-      get "/"
-      expect(last_response.status).to eql(403)
-      expect(last_response.body).to match(/We're unable to verify your eligibility at this time/)
-    end
-  end
+      it "denies acccess to invalid users" do
+        with_env "GITHUB_ORG_ID", "some_org" do
+          stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
+          to_return(:status => 404)
 
-  it "tries to add valid users" do
-    with_env "GITHUB_ORG_ID", "some_org" do
-      stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
-      to_return(:status => 404)
+          stub_request(:get, "https://api.github.com/user/emails").
+          to_return(:status => 200, :body => fixture("invalid_emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-      stub_request(:get, "https://api.github.com/user/emails").
-      to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+          get "/"
+          expect(last_response.status).to eql(403)
+          expect(last_response.body).to match(/We're unable to verify your eligibility at this time/)
+        end
+      end
 
-      stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-      to_return(:status => 204)
+      it "tries to add valid users" do
+        with_env "GITHUB_ORG_ID", "some_org" do
+          stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
+          to_return(:status => 404)
 
-      get "/foo"
-      expect(stub).to have_been_requested
-      expect(last_response.status).to eql(200)
-      expect(last_response.body).to match(/confirm your invitation to join the organization/)
-      expect(last_response.body).to match(/https:\/\/github.com\/orgs\/some_org\/invitation/)
-      expect(last_response.body).to match(/\?return_to=https:\/\/github.com\/foo/)
-    end
-  end
+          stub_request(:get, "https://api.github.com/user/emails").
+          to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-  it "includes the requested URL" do
-    with_env "GITHUB_ORG_ID", "some_org" do
-      stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
-      to_return(:status => 404)
+          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
+          to_return(:status => 204)
 
-      stub_request(:get, "https://api.github.com/user/emails").
-      to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+          get "/foo"
+          expect(stub).to have_been_requested
+          expect(last_response.status).to eql(200)
+          expect(last_response.body).to match(/confirm your invitation to join the organization/)
+          expect(last_response.body).to match(/https:\/\/github.com\/orgs\/some_org\/invitation/)
+          expect(last_response.body).to match(/\?return_to=https:\/\/github.com\/foo/)
+        end
+      end
 
-      stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-      to_return(:status => 204)
+      it "includes the requested URL" do
+        with_env "GITHUB_ORG_ID", "some_org" do
+          stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
+          to_return(:status => 404)
 
-      get "/foo/bar"
-      expect(stub).to have_been_requested
-      expect(last_response.status).to eql(200)
-      expect(last_response.body).to match(Regexp.new('<a href="https://github.com/foo/bar">https://github.com/foo/bar</a>'))
+          stub_request(:get, "https://api.github.com/user/emails").
+          to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+
+          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
+          to_return(:status => 204)
+
+          get "/foo/bar"
+          expect(stub).to have_been_requested
+          expect(last_response.status).to eql(200)
+          expect(last_response.body).to match(Regexp.new('<a href="https://github.com/foo/bar">https://github.com/foo/bar</a>'))
+        end
+      end
     end
   end
 end

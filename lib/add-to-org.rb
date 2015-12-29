@@ -3,9 +3,40 @@ require 'sinatra_auth_github'
 require 'dotenv'
 require_relative 'add-to-org/helpers'
 
-Dotenv.load
-
 module AddToOrg
+
+  def self.root
+    File.expand_path "./add-to-org", File.dirname(__FILE__)
+  end
+
+  def self.views_dir
+    @views_dir ||= File.expand_path "views", AddToOrg.root
+  end
+
+  def self.views_dir=(dir)
+    @views_dir = dir
+  end
+
+  def self.public_dir
+    @public_dir ||= File.expand_path "public", AddToOrg.root
+  end
+
+  def self.public_dir=(dir)
+    @public_dir = dir
+  end
+
+  def self.validator=(validator)
+    @validator = validator
+  end
+
+  def self.set_validator(&block)
+    @validator = block
+  end
+
+  def self.validator
+    @validator ||= Proc.new { raise "You must define a custom validator to determine eligibility" }
+  end
+
   class App < Sinatra::Base
 
     include AddToOrg::Helpers
@@ -22,7 +53,9 @@ module AddToOrg
     ENV['WARDEN_GITHUB_VERIFIER_SECRET'] ||= SecureRandom.hex
     register Sinatra::Auth::Github
 
-    set :views, File.expand_path("add-to-org/views", File.dirname(__FILE__))
+    set :views, Proc.new { AddToOrg.views_dir }
+    set :root,  Proc.new { AddToOrg.root }
+    set :public_folder, Proc.new { AddToOrg.public_dir }
 
     # require ssl
     configure :production do
@@ -65,3 +98,5 @@ module AddToOrg
     end
   end
 end
+
+Dotenv.load unless AddToOrg::App.production?
