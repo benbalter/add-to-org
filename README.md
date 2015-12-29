@@ -84,6 +84,8 @@ The validator will receive three  arguments to help you validate the user meets 
 * `verified_emails` - an array of the user's verified emails
 * `client` - An [Octokit.rb](https://github.com/octokit/octokit.rb) client, preset with the user's OAuth token.
 
+The validator should return `true` if you'd like the current user added to the organization, or `false` if you'd like the user's request to be denied.
+
 ### Customizing Views
 
 There are three views, `success`, `forbidden`, and `error`. They're pretty boring by default, so you may want to swap them out for something a bit my snazzy. If you had a views directory along side your `config.ru`, you can do so like this in your `config.ru` file:
