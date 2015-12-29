@@ -98,6 +98,8 @@ AddToOrgs.views_dir = File.expand_path("./views", File.dirname(__FILE__))
 run AddToOrg::App
 ```
 
+These are just sinatra `.erb` views. Take a look at [the default views](https://github.com/benbalter/add-to-org/tree/master/lib/add-to-org/views) for an example.
+
 ### Customizing static assets
 
 You can also do the same with `AddToOrg.public_dir` for serving static assets (AddToOrg comes bundled with Bootstrap by default).
