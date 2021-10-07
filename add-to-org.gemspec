@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.executables           = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths         = ['lib']
 
-  s.require_paths = ['lib']
   s.add_dependency 'dotenv', '~> 2.0'
   s.add_dependency 'octokit', '~> 4.0'
   s.add_dependency 'rack-ssl-enforcer', '~> 0.2'
