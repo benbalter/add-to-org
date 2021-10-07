@@ -101,8 +101,17 @@ describe "logged in user" do
           stub_request(:get, "https://api.github.com/user/emails").
           to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-          to_return(:status => 204)
+          stub = stub_request(:put, "https://api.github.com/teams//memberships/benbaltertest").
+          with(
+            body: "{}",
+            headers: {
+           'Accept'=>'application/vnd.github.v3+json',
+           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+           'Authorization'=>'token ghu_kgMurZBGt9Y75YNG2eYF4OWoZVUX0C2VQzsa',
+           'Content-Type'=>'application/json',
+           'User-Agent'=>'Octokit Ruby Gem 4.21.0'
+            }).
+          to_return(status: 200, body: "", headers: {})
 
           get "/foo"
           expect(stub).to have_been_requested
@@ -121,8 +130,17 @@ describe "logged in user" do
           stub_request(:get, "https://api.github.com/user/emails").
           to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-          to_return(:status => 204)
+          stub = stub_request(:put, "https://api.github.com/teams//memberships/benbaltertest").
+          with(
+            body: "{}",
+            headers: {
+           'Accept'=>'application/vnd.github.v3+json',
+           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+           'Authorization'=>'token ghu_kgMurZBGt9Y75YNG2eYF4OWoZVUX0C2VQzsa',
+           'Content-Type'=>'application/json',
+           'User-Agent'=>'Octokit Ruby Gem 4.21.0'
+            }).
+          to_return(status: 200, body: "", headers: {})
 
           get "/foo/bar"
           expect(stub).to have_been_requested
