@@ -21,9 +21,9 @@ Gem::Specification.new do |s|
   s.add_dependency "octokit", "~> 4.0"
   s.add_dependency "rack-ssl-enforcer", "~> 0.2"
   s.add_dependency "dotenv", "~> 2.0"
-  s.add_dependency "rake", "~> 10.3"
+  s.add_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.1"
-  s.add_development_dependency "rack-test", "~> 0.6"
-  s.add_development_dependency "webmock", "~> 1.2 "
-  s.add_development_dependency "pry", "~> 0.10"
+  s.add_development_dependency "rack-test"
+  s.add_development_dependency "webmock"
+  s.add_development_dependency "pry"
 end

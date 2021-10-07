@@ -65,12 +65,14 @@ describe "AddToOrgHelpers" do
     end
   end
 
-  it "knows how to add a mebmer to an org" do
+  it "knows how to add a member to an org" do
     with_env "GITHUB_ORG_ID", "some_org" do
-      stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-      to_return(:status => 204)
-      @helper.send(:add)
-      expect(stub).to have_been_requested
+      with_env "GITHUB_TEAM_ID", "1234" do
+        stub = stub_request(:put, "https://api.github.com/teams/1234/memberships/benbaltertest").
+        to_return(:status => 204)
+        @helper.send(:add)
+        expect(stub).to have_been_requested
+      end
     end
   end
 

@@ -95,39 +95,43 @@ describe "logged in user" do
 
       it "tries to add valid users" do
         with_env "GITHUB_ORG_ID", "some_org" do
-          stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
-          to_return(:status => 404)
+          with_env "GITHUB_TEAM_ID", "1234" do
+            stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
+            to_return(:status => 404)
 
-          stub_request(:get, "https://api.github.com/user/emails").
-          to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+            stub_request(:get, "https://api.github.com/user/emails").
+            to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-          to_return(:status => 204)
+            stub = stub_request(:put, "https://api.github.com/teams/1234/memberships/benbaltertest").
+            to_return(:status => 204)
 
-          get "/foo"
-          expect(stub).to have_been_requested
-          expect(last_response.status).to eql(200)
-          expect(last_response.body).to match(/confirm your invitation to join the organization/)
-          expect(last_response.body).to match(/https:\/\/github.com\/orgs\/some_org\/invitation/)
-          expect(last_response.body).to match(/\?return_to=https:\/\/github.com\/foo/)
+            get "/foo"
+            expect(stub).to have_been_requested
+            expect(last_response.status).to eql(200)
+            expect(last_response.body).to match(/confirm your invitation to join the organization/)
+            expect(last_response.body).to match(/https:\/\/github.com\/orgs\/some_org\/invitation/)
+            expect(last_response.body).to match(/\?return_to=https:\/\/github.com\/foo/)
+          end
         end
       end
 
       it "includes the requested URL" do
         with_env "GITHUB_ORG_ID", "some_org" do
-          stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
-          to_return(:status => 404)
+          with_env "GITHUB_TEAM_ID", "1234" do
+            stub_request(:get, "https://api.github.com/orgs/some_org/members/benbaltertest").
+            to_return(:status => 404)
 
-          stub_request(:get, "https://api.github.com/user/emails").
-          to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
+            stub_request(:get, "https://api.github.com/user/emails").
+            to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
-          stub = stub_request(:put, "https://api.github.com/teams/memberships/benbaltertest").
-          to_return(:status => 204)
+            stub = stub_request(:put, "https://api.github.com/teams/1234/memberships/benbaltertest").
+            to_return(:status => 204)
 
-          get "/foo/bar"
-          expect(stub).to have_been_requested
-          expect(last_response.status).to eql(200)
-          expect(last_response.body).to match(Regexp.new('<a href="https://github.com/foo/bar">https://github.com/foo/bar</a>'))
+            get "/foo/bar"
+            expect(stub).to have_been_requested
+            expect(last_response.status).to eql(200)
+            expect(last_response.body).to match(Regexp.new('<a href="https://github.com/foo/bar">https://github.com/foo/bar</a>'))
+          end
         end
       end
     end
