@@ -16,8 +16,7 @@ Gem::Specification.new do |s|
   s.require_paths         = ["lib"]
 
   s.require_paths = ["lib"]
-  s.add_dependency "warden-github", "~> 1.1"
-  s.add_dependency "sinatra_auth_github", "~> 1.1"
+  s.add_dependency "sinatra_auth_github", "~> 2.0"
   s.add_dependency "octokit", "~> 4.0"
   s.add_dependency "rack-ssl-enforcer", "~> 0.2"
   s.add_dependency "dotenv", "~> 2.0"
