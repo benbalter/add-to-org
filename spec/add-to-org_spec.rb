@@ -102,7 +102,7 @@ describe "logged in user" do
           to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
           stub = stub_request(:put, "https://api.github.com/teams//memberships/benbaltertest").
-          to_return(status: 200)
+          to_return(:status => 200)
 
           get "/foo"
           expect(stub).to have_been_requested
@@ -122,7 +122,7 @@ describe "logged in user" do
           to_return(:status => 200, :body => fixture("emails.json"), :headers => { 'Content-Type'=>'application/json' })
 
           stub = stub_request(:put, "https://api.github.com/teams//memberships/benbaltertest").
-          to_return(status: 200)
+          to_return(:status => 200)
 
           get "/foo/bar"
           expect(stub).to have_been_requested

@@ -68,7 +68,7 @@ describe "AddToOrgHelpers" do
   it "knows how to add a mebmer to an org" do
     with_env "GITHUB_ORG_ID", "some_org" do
       stub = stub_request(:put, "https://api.github.com/teams//memberships/benbaltertest").
-        to_return(status: 200)
+        to_return(:status => 200)
       @helper.send(:add)
       expect(stub).to have_been_requested
     end
