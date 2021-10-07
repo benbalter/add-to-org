@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('lib/add-to-org/version', __dir__)
 
 Gem::Specification.new do |s|

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module AddToOrg
   module Helpers
     # query api for the user's verified emails
     def verified_emails
       emails = client.emails accept: 'application/vnd.github.v3'
-      emails.select { |email| email.verified }
+      emails.select(&:verified)
     end
 
     def valid?

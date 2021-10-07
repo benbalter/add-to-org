@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'octokit'
 require 'sinatra_auth_github'
 require 'dotenv'

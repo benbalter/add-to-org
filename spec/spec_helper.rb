@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 require 'fileutils'
 require 'securerandom'
@@ -5,7 +7,7 @@ require 'securerandom'
 ENV['RACK_ENV'] = 'test'
 ENV['GITHUB_CLIENT_ID'] = 'CLIENT_ID'
 ENV['GITHUB_CLIENT_SECRET'] = 'CLIENT_SECRET'
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH.push File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rack/test'
 require 'sinatra/auth/github'

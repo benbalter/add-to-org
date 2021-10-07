@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'config' do
@@ -61,15 +63,16 @@ describe 'logged in user' do
   %i[proc block lambda].each do |method|
     describe "with validator passed as a #{method}" do
       before do
-        if method == :block
+        case method
+        when :block
           AddToOrg.set_validator do |_github_user, verified_emails, _client|
             verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
           end
-        elsif method == :proc
+        when :proc
           AddToOrg.validator = proc { |_github_user, verified_emails, _client|
             verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
           }
-        elsif method == :lambda
+        when :lambda
           AddToOrg.validator = lambda { |_github_user, verified_emails, _client|
             verified_emails.any? { |email| email[:email] =~ /@github\.com$/ }
           }
