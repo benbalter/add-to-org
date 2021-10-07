@@ -1,9 +1,8 @@
 module AddToOrg
   module Helpers
-
     # query api for the user's verified emails
     def verified_emails
-      emails = client.emails :accept => 'application/vnd.github.v3'
+      emails = client.emails accept: 'application/vnd.github.v3'
       emails.select { |email| email.verified }
     end
 
@@ -15,12 +14,12 @@ module AddToOrg
 
     # user client
     def client
-      @client ||= Octokit::Client.new :access_token => github_user.token
+      @client ||= Octokit::Client.new access_token: github_user.token
     end
 
     # org admin client
     def sudo_client
-      @sudo_client ||= Octokit::Client.new :access_token => ENV['GITHUB_TOKEN']
+      @sudo_client ||= Octokit::Client.new access_token: ENV['GITHUB_TOKEN']
     end
 
     # true if user is already a member of the org
