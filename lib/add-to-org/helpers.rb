@@ -21,7 +21,7 @@ module AddToOrg
 
     # org admin client
     def sudo_client
-      @sudo_client ||= Octokit::Client.new access_token: ENV['GITHUB_TOKEN']
+      @sudo_client ||= Octokit::Client.new access_token: ENV.fetch('GITHUB_TOKEN', nil)
     end
 
     # true if user is already a member of the org
@@ -30,11 +30,11 @@ module AddToOrg
     end
 
     def team_id
-      ENV['GITHUB_TEAM_ID']
+      ENV.fetch('GITHUB_TEAM_ID', nil)
     end
 
     def org_id
-      ENV['GITHUB_ORG_ID']
+      ENV.fetch('GITHUB_ORG_ID', nil)
     end
 
     # the main event...
