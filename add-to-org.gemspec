@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'dotenv', '~> 2.0'
   s.add_dependency 'octokit', '~> 4.0'
+  s.add_dependency 'ostruct'
   s.add_dependency 'rack-ssl-enforcer', '~> 0.2'
   s.add_dependency 'rake'
   s.add_dependency 'sinatra_auth_github', '~> 2.0'
