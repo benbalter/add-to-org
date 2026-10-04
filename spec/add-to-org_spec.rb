@@ -89,7 +89,7 @@ describe 'logged in user' do
 
           get '/'
           expect(last_response.status).to be(403)
-          expect(last_response.body).to match(/We're unable to verify your eligibility at this time/)
+          expect(last_response.body).to include("We're unable to verify your eligibility at this time")
         end
       end
 
@@ -108,7 +108,7 @@ describe 'logged in user' do
             get '/foo'
             expect(stub).to have_been_requested
             expect(last_response.status).to be(200)
-            expect(last_response.body).to match(/confirm your invitation to join the organization/)
+            expect(last_response.body).to include('confirm your invitation to join the organization')
             expect(last_response.body).to match(%r{https://github.com/orgs/some_org/invitation})
             expect(last_response.body).to match(%r{\?return_to=https://github.com/foo})
           end

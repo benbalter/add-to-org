@@ -25,13 +25,13 @@ describe 'AddToOrgHelpers' do
 
   it 'initializes the client' do
     expect(@helper.send(:client).class).to eql(Octokit::Client)
-    expect(@helper.send(:client).instance_variable_get('@access_token')).to eql('asdf1234')
+    expect(@helper.send(:client).instance_variable_get(:@access_token)).to eql('asdf1234')
   end
 
   it 'initializes the sudo client' do
     with_env 'GITHUB_TOKEN', 'SUDO_TOKEN' do
       expect(@helper.send(:sudo_client).class).to eql(Octokit::Client)
-      expect(@helper.send(:sudo_client).instance_variable_get('@access_token')).to eql('SUDO_TOKEN')
+      expect(@helper.send(:sudo_client).instance_variable_get(:@access_token)).to eql('SUDO_TOKEN')
     end
   end
 
