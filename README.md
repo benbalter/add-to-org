@@ -2,11 +2,11 @@
 
 *A simple Oauth App to automatically add users to an organization*
 
-[![Gem Version](https://badge.fury.io/rb/add-to-org.svg)](http://badge.fury.io/rb/add-to-org) [![Build Status](https://travis-ci.org/benbalter/add-to-org.svg)](https://travis-ci.org/benbalter/add-to-org)
+[![Gem Version](https://badge.fury.io/rb/add-to-org.svg)](http://badge.fury.io/rb/add-to-org) [![Build Status](https://github.com/benbalter/add-to-org/actions/workflows/ci.yml/badge.svg)](https://github.com/benbalter/add-to-org/actions/workflows/ci.yml)
 
 ## Usage
 
-Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github.com/government/best-practices/issues/1` becomes `government-community.githubapp.com/government/best-practices/1`. The user will be authenticated, added to the organization, and redirected to the requested GitHub URL.
+Once set up, simply swap out your app's domain for any GitHub URL. E.g., `github.com/government/best-practices/issues/1` becomes `government-community.githubapp.com/government/best-practices/issues/1`. The user will be authenticated, added to the organization, and redirected to the requested GitHub URL.
 
 ## Setup
 
@@ -58,7 +58,7 @@ The following environmental values should be set:
 
 ### Customizing the validator
 
-For Add to Org to work, you'll also need to define a custom validator. You can do this in your `configu.ru`, or in a separate file included into `config.ru`. Here's an example of a validator that confirms the user has a verified `@github.com` email address:
+For Add to Org to work, you'll also need to define a custom validator. You can do this in your `config.ru`, or in a separate file included into `config.ru`. Here's an example of a validator that confirms the user has a verified `@github.com` email address:
 
 ```ruby
 require 'add-to-org'
@@ -93,7 +93,7 @@ There are three views, `success`, `forbidden`, and `error`. They're pretty borin
 ```ruby
 require 'add-to-org'
 
-AddToOrgs.views_dir = File.expand_path("./views", File.dirname(__FILE__))
+AddToOrg.views_dir = File.expand_path("./views", File.dirname(__FILE__))
 
 run AddToOrg::App
 ```
@@ -102,12 +102,12 @@ These are just sinatra `.erb` views. Take a look at [the default views](https://
 
 ### Customizing static assets
 
-You can also do the same with `AddToOrg.public_dir` for serving static assets (AddToOrg comes bundled with Bootstrap by default).
+You can also do the same with `AddToOrg.public_dir` for serving static assets.
 
 ```ruby
 require 'add-to-org'
 
-AddToOrgs.public_dir = File.expand_path("./public", File.dirname(__FILE__))
+AddToOrg.public_dir = File.expand_path("./public", File.dirname(__FILE__))
 
 run AddToOrg::App
 ```
