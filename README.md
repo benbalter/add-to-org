@@ -55,6 +55,10 @@ The following environmental values should be set:
 * `GITHUB_CLIENT_SECRET` - Your Oauth app's client secret
 * `GITHUB_TOKEN` - A personal access token for a user with admin rights to the organization
 * `CONTACT_EMAIL` - Point of contact to point users to if something goes wrong
+* `SESSION_SECRET` - A long random string used to sign session cookies (e.g., `ruby -rsecurerandom -e 'puts SecureRandom.hex(64)'`)
+* `WARDEN_GITHUB_VERIFIER_SECRET` - A long random string used to verify the OAuth callback
+
+If either secret is unset, the app generates a random one at boot. That works for a single process, but sessions break on every restart and across multiple instances, so set both in production.
 
 ### Customizing the validator
 

@@ -22,7 +22,7 @@
 
 ## Gotchas
 
-- `SESSION_SECRET` and `WARDEN_GITHUB_VERIFIER_SECRET` aren't in the README's env var list, but without them each falls back to a random value per process, so sessions and OAuth state break across restarts or multiple instances.
+- `SESSION_SECRET` and `WARDEN_GITHUB_VERIFIER_SECRET` fall back to a random value per process when unset, so sessions and OAuth state break across restarts or multiple instances. The README's configuration list says to set both.
 - `Dotenv.load` runs at require time outside production, so a local `.env` (gitignored) supplies the env vars in development.
 - `Rack::SslEnforcer` is only enabled when `RACK_ENV=production`.
 - The gem depends on `ostruct` explicitly because Ruby 4.0 no longer ships it as a default gem.
