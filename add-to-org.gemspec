@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths         = ['lib']
 
   s.add_dependency 'dotenv', '~> 3.0'
-  s.add_dependency 'octokit', '~> 4.0'
+  s.add_dependency 'octokit', '~> 10.0'
   s.add_dependency 'ostruct'
   s.add_dependency 'rack-ssl-enforcer', '~> 0.2'
   s.add_dependency 'rake'
